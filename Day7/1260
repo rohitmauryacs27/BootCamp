@@ -1,0 +1,35 @@
+import java.util.ArrayList;
+import java.util.List;
+
+class Solution {
+    public List<List<Integer>> shiftGrid(int[][] grid, int k) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int totalElements = m * n;
+        
+        // Normalize k to prevent redundant full rotations
+        k = k % totalElements;
+        
+        List<List<Integer>> result = new ArrayList<>();
+        
+        // Initialize the nested result list
+        for (int i = 0; i < m; i++) {
+            result.add(new ArrayList<>());
+        }
+        
+        for (int i = 0; i < totalElements; i++) {
+            // Find the 1D index of the element that will land at current 1D index 'i'
+            int originalIndex = (i - k + totalElements) % totalElements;
+            
+            // Convert 1D indices back to 2D grid coordinates
+            int origRow = originalIndex / n;
+            int origCol = originalIndex % n;
+            
+            int targetRow = i / n;
+            
+            result.get(targetRow).add(grid[origRow][origCol]);
+        }
+        
+        return result;
+    }
+}
