@@ -1,0 +1,35 @@
+import java.util.Stack;
+
+class Solution {
+    public Node flatten(Node head) {
+        if (head == null) return null;
+        
+        Node curr = head;
+        Stack<Node> stack = new Stack<>();
+        
+        while (curr != null) {
+            // If a child list exists, we need to process it first
+            if (curr.child != null) {
+                // Save the next node to the stack to process later
+                if (curr.next != null) {
+                    stack.push(curr.next);
+                }
+                
+                // Connect current node to its child
+                curr.next = curr.child;
+                curr.next.prev = curr;
+                curr.child = null; // Clear child pointer
+            } 
+            // Reached the end of a level, pop from stack to reconnect previous branches
+            else if (curr.next == null && !stack.isEmpty()) {
+                Node nextNode = stack.pop();
+                curr.next = nextNode;
+                nextNode.prev = curr;
+            }
+            
+            curr = curr.next;
+        }
+        
+        return head;
+    }
+}
