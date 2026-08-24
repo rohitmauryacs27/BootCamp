@@ -1,0 +1,19 @@
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        return validate(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+    
+    private boolean validate(TreeNode node, long min, long max) {
+        if (node == null) {
+            return true;
+        }
+        
+        // Current node's value must strictly fall between min and max bounds
+        if (node.val <= min || node.val >= max) {
+            return false;
+        }
+        
+        // Left child must be smaller than current val; right child must be greater
+        return validate(node.left, min, node.val) && validate(node.right, node.val, max);
+    }
+}
